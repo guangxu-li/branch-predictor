@@ -20,14 +20,14 @@ int main (int argc, char** argv) {
 	
 	ifstream trace;
 	trace.open(argv[2]);
-
+	unsigned long pc; bool taken;
+	trace >> std::hex >> pc >> taken;
 
 	while (!trace.eof()) {
-		unsigned long pc; bool taken;
-		trace >> std::hex >> pc >> taken;
 		bool prediction;
 		prediction = true;
-		out << prediction;
+		out << prediction<<endl;
+		trace >> std::hex >> pc >> taken;
 	}
 	 
 	trace.close();	
