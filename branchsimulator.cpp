@@ -12,9 +12,25 @@ int main(int argc, char **argv)
 	config.open(argv[1]);
 
 	int m, k;
-	config >> m >> k;
+	try
+	{
+		config >> m >> k;
+		config.close();
+		if (m <= 0 || k < 0)
+		{
+			throw "Smallest number for m is 1, and for k is 0 (not recommend to use 0). Please change them in config.txt";
+		}
+	}
+	catch (const char *msg)
+	{
+		cerr << msg << endl;
+		return 0;
+	}
 
-	config.close();
+	if (k == 0)
+	{
+		cout << "k = 0\nEven though the program could still handle it, the smallest recommended value for k is 1." << endl;
+	}
 
 	ofstream out;
 	string _file_name = string(argv[2]);
@@ -33,7 +49,7 @@ int main(int argc, char **argv)
 	bitset<32> ppc = pc;
 
 	// define bhr
-	int bhr = pow(2, k) - 1;
+	unsigned long bhr = pow(2, k) - 1;
 
 	// define pht
 	vector<vector<int>> pht(pow(2, k), vector<int>(pow(2, m)));
@@ -54,7 +70,7 @@ int main(int argc, char **argv)
 		string pc_substr = ppc.to_string().substr(32 - m, m);
 
 		// initial / update mm <- row of pht
-		unsigned long mm = bitset<32>(pc_substr).to_ulong() - 1;
+		unsigned long mm = bitset<32>(pc_substr).to_ulong();
 
 		// predict
 		bool prediction = pht[bhr][mm] >= 2 ? true : false;
@@ -76,7 +92,9 @@ int main(int argc, char **argv)
 			pht[bhr][mm] = pht[bhr][mm] == 3 ? 2 : 0;
 		}
 		// update bhr
-		bhr = bitset<32>(bitset<32>(bhr).to_string().substr(33 - k, k)).to_ulong() * 2 + taken; // 32 - k + 1
+		// get msb in decimal
+		unsigned msb = (bhr & (1 << (k - 1)));
+		bhr = ((bhr - msb) << 1) + (taken && (k != 0)); // 1. remove msb 2. left shift 1 bit 3. add taken when k != 0
 		// next branch
 		trace >> std::hex >> pc >> taken;
 		ppc = pc;

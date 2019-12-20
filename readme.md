@@ -10,7 +10,9 @@ A file called branchsimulator.out will be created in the folder. Use following s
 ./branchsimulator.out config.txt trace.txt
 ```
 > config.txt: first line -> m
->             second line -> k
+>             second line -> k  
+> 
+> Smallest int number for m and k should be 1. However, the program could still handle k=0 and output prediction result. But it's not recommended.
 ### Output file
 After above command lines, the program should output an file called trace.txt.out containing branch prediction result.
-> If you prefer output filename being trace.out, please uncomment 22 and 23 lines of branchsimulator.cpp
+> If you prefer output filename being trace.out, please uncomment 38 and 39 lines of branchsimulator.cpp
