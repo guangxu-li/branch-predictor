@@ -35,14 +35,18 @@ int main(int argc, char **argv)
 	bitset<8> bhr = pow(2, k) - 1;
 
 	// define pht
-	vector<vector<bitset<2>>> pht;
+	vector<vector<int>> pht(pow(2, k) - 1, vector<int>(pow(2, m) - 1));
+
 	// history k
-	for (int i = 0; i < pow(2, k) - 1; i++)
+	int row;
+	int col;
+	for (col = 0; col < pow(2, k) - 1; col++)
 	{
 		// index m
-		for (int j = 0; j < pow(2, m) - 1; j++)
+		for (row = 0; row < pow(2, m) - 1; row++)
 		{
-			pht[i][j] = 3;
+			cout << col << " " << row << endl;
+			pht[col][row] = 3;
 		}
 	}
 
@@ -52,7 +56,7 @@ int main(int argc, char **argv)
 		unsigned long mm = bitset<32>(pc_substr).to_ulong();
 
 		// predict
-		bool prediction = pht[k][mm].to_ulong() >= 2 ? true : false;
+		bool prediction = pht[k][mm] >= 2 ? true : false;
 		out << prediction << endl;
 
 		// update pht
@@ -70,7 +74,6 @@ int main(int argc, char **argv)
 			// pht == 10 / 01 / 00 -> 0
 			pht[k][mm] = pht[k][mm] == 3 ? 2 : 0;
 		}
-
 		// update bhr
 		bhr = bhr.to_ulong() - pow(2, k - 1) + taken;
 
