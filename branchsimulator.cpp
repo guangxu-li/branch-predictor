@@ -19,8 +19,6 @@ int main(int argc, char **argv)
 	ofstream out;
 	string _file_name = string(argv[2]);
 
-	int separator = _file_name.rfind(".");
-	_file_name = _file_name.substr(0, separator);
 	string out_file_name = _file_name + ".out";
 	out.open(out_file_name.c_str());
 
