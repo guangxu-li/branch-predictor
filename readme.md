@@ -1,5 +1,3 @@
-# Computing System Architecture
-## Lab 2
 ### Compile & Build
 ```bash
 g++ branchsimulator.cpp -o branchsimulator.out
